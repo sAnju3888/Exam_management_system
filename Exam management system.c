@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 //structure
 struct student{
     int rollnum;
@@ -9,7 +9,7 @@ struct student{
     char name[50];
     char feestat;
 };
-struct student st[100];
+struct student *st;
 
 // function declaration statments
 void eligible(int n);
@@ -23,33 +23,31 @@ int main()
 {
     int n,check,i,selector;
     printf("Enter the number of students:");
-        do{
-        scanf("%d",&n);
-        }while(n<0);
-
+    scanf("%d",&n);
+    st = (struct student *)malloc(n * sizeof(struct student));
     printf("Enter Records of %d students\n",n);
 
     //taking inputs of student details
-		for(i=0;i<n;i++){
-		    printf("\nEnter the details oF %d st student\n",i+1);
-		    st[i].rollnum= i+1;
-		
-		    printf("Enter Name:");
-		    scanf("%s",st[i].name);
-		
-		    printf("Enter attendance percentage:");
-		    do{
-		    scanf("%d",&st[i].attendance);
-		    }while(st[i].attendance<0||st[i].attendance>100);
-		
-		    printf("Enter feestatus(y/n):");
-		    do{
-		    scanf("%c",&st[i].feestat);
-		    }while(st[i].feestat!='y'&& st[i].feestat!='n');
-		
-		    st[i].eligibility=0;
-		
-		}
+        for(i=0;i<n;i++){
+            printf("\nEnter the details oF %d st student\n",i+1);
+            st[i].rollnum= i+1;
+
+            printf("Enter Name:");
+            scanf("%s",st[i].name);
+
+            printf("Enter attendance percentage:");
+            do{
+            scanf("%d",&st[i].attendance);
+            }while(st[i].attendance<0||st[i].attendance>100);
+
+            printf("Enter feestatus(y/n):");
+            do{
+            scanf("%c",&st[i].feestat);
+            }while(st[i].feestat!='y'&& st[i].feestat!='n');
+
+            st[i].eligibility=0;
+
+        }
 
 
 //menu driven
@@ -95,8 +93,8 @@ void delete(int n){
     int k;
     printf("enter the roll number to delete the record:");
     do{
-    	scanf("%d",&k);
-	}while (k<0 || k>n);
+       scanf("%d",&k);
+       }while (k<0 || k>n);
     k=k-1;
         st[k].attendance=-1;
         st[k].feestat='\0';
@@ -116,8 +114,8 @@ void print(int n){
         for(i;i<n;i++){
            if(st[i].attendance==-1){
             printf("student with roll number %d is deleted\n",i+1);
-        	}
-        	else{
+         }
+         else{
             printf("Details of student with rollnum %d\n",i+1);
             printf("Name: %s\n",st[i].name);
             printf("Attendance percentage: %d\n",st[i].attendance);
@@ -136,9 +134,9 @@ void print(int n){
                 }else{
                     puts("Not eligible for exam\n");
                 }
-        } 
         }
-    }else if(k==2){ 
+        }
+    }else if(k==2){
         puts("Rollnumber of the student to print records");
         do{
             scanf("%d",&i);
@@ -167,7 +165,7 @@ void print(int n){
                     puts("Not eligible for exam\n");
                 }
         }
-    }   
+    }
 }
 
 // function for eligible
@@ -204,9 +202,9 @@ void eligible(int n){
 
 // function for updating the student details
 void update(int n){
-	int check,opt,k,search,newattendance;
-	char newfeestat;
-	// menu driven for updating the student record
+       int check,opt,k,search,newattendance;
+       char newfeestat;
+       // menu driven for updating the student record
 
     printf("\nwhich program to run\n");
     puts("Enter 1 for updating attendance percentage");
@@ -219,109 +217,109 @@ void update(int n){
     if(opt==1){
         printf("Enter the roll number:");
     do{
-    	scanf("%d",&k);
-	}while(k<0 || k>n);
-	search=k-1;
-	printf("Enter new attendance percentage: ");
-	do{
-		scanf("%d",&newattendance);
-	}while(newattendance<0 || newattendance>100);
-	st[search].attendance=newattendance;
-	printf("Name :%s\n",st[search].name);
-	printf("Rollnum :%d\n",st[search].rollnum);
-	printf("Attendance percentage :%d\n",st[search].attendance);
-	printf("Fee stat :%c\n",st[search].feestat);
+       scanf("%d",&k);
+       }while(k<0 || k>n);
+       search=k-1;
+       printf("Enter new attendance percentage: ");
+       do{
+        scanf("%d",&newattendance);
+       }while(newattendance<0 || newattendance>100);
+       st[search].attendance=newattendance;
+       printf("Name :%s\n",st[search].name);
+       printf("Rollnum :%d\n",st[search].rollnum);
+       printf("Attendance percentage :%d\n",st[search].attendance);
+       printf("Fee stat :%c\n",st[search].feestat);
     }
-	// updating the feestat of a student record
+       // updating the feestat of a student record
     else if(opt==2){
          printf("Enter the roll number");
     do{
-    	scanf("%d",&k);
-	}while(k<0 || k>n);
-	search=k-1;
-	printf("Enter new fee feestatus: ");
-	do{
+       scanf("%d",&k);
+       }while(k<0 || k>n);
+       search=k-1;
+       printf("Enter new fee feestatus: ");
+       do{
     scanf("%c",&newfeestat);
     }while(newfeestat!='y'&& newfeestat!='n');
     st[search].feestat=newfeestat;
     printf("Name :%s\n",st[search].name);
     printf("Rollnum :%d\n",st[search].rollnum);
-	printf("Attendance percentage :%d\n",st[search].attendance);
-	printf("Fee feestatus :%c\n",st[search].feestat);
+       printf("Attendance percentage :%d\n",st[search].attendance);
+       printf("Fee feestatus :%c\n",st[search].feestat);
     }
     else if(opt==3){
-	printf("Enter the roll number:");
+       printf("Enter the roll number:");
     do{
-    	scanf("%d",&k);
-	}while(k<0 || k>n);
-	search=k-1;
-	printf("Enter new attendance percentage:");
-	do{
-		scanf("%d",&newattendance);
-	}while(newattendance<0 || newattendance>100);
-	st[search].attendance=newattendance;
-	printf("Enter new fee feestatus:");
-	do{
+       scanf("%d",&k);
+       }while(k<0 || k>n);
+       search=k-1;
+       printf("Enter new attendance percentage:");
+       do{
+        scanf("%d",&newattendance);
+       }while(newattendance<0 || newattendance>100);
+       st[search].attendance=newattendance;
+       printf("Enter new fee feestatus:");
+       do{
     scanf("%c",&newfeestat);
     }while(newfeestat!='y'&& newfeestat!='n');
     st[search].feestat=newfeestat;
     printf("Name :%s\n",st[search].name);
     printf("Rollnum :%d\n",st[search].rollnum);
-	printf("Attendance percentage :%d\n",st[search].attendance);
-	printf("Fee feestatus :%c\n",st[search].feestat);
+       printf("Attendance percentage :%d\n",st[search].attendance);
+       printf("Fee feestatus :%c\n",st[search].feestat);
 
 }
 }
 
 // function for adding the student
 void addstudent(int *n){
-	int i,flag=1,x;
-	x=*n;
-	for(i=0;i<=x;i++)
-	{
-		if(st[i].attendance==-1){
-			
-				printf("\nEnter the details oF %d st student\n",i+1);
-    			st[i].rollnum= i+1; 
-    
-    			printf("Enter Name:");    
-    			scanf("%s",st[i].name); 
-    
-    			printf("Enter attendance percentage:"); 
-   				do{
-   				scanf("%d",&st[i].attendance); 
-    			}while(st[i].attendance<0||st[i].attendance>100);
-    
-    			printf("Enter feestatus(y/n):"); 
-    			do{
-    			scanf("%c",&st[i].feestat); 
-    			}while(st[i].feestat!='y'&& st[i].feestat!='n');
-    
-    			st[i].eligibility=0;
-			    flag=0;
-			    break;
-		}
-		
-	}
-	if(flag==1){
-		    *n=*n+1;
-		    
-		    printf("\nEnter the details oF %d st student\n",x+1);
-    			st[x].rollnum= x+1; 
-    
-    			printf("Enter Name:");    
-    			scanf("%s",st[x].name); 
-    
-    			printf("Enter attendance percentage:"); 
-   				do{
-   				scanf("%d",&st[x].attendance); 
-    			}while(st[x].attendance<0||st[x].attendance>100);
-    
-    			printf("Enter feestatus(y/n):"); 
-    			do{
-    			scanf("%c",&st[x].feestat); 
-    			}while(st[x].feestat!='y'&& st[x].feestat!='n');
-    
-    			st[x].eligibility=0;
-		}
+       int i,flag=1,x;
+       x=*n;
+       for(i=0;i<=x;i++)
+       {
+        if(st[i].attendance==-1){
+
+               printf("\nEnter the details oF %d st student\n",i+1);
+         st[i].rollnum= i+1;
+
+         printf("Enter Name:");
+         scanf("%s",st[i].name);
+
+         printf("Enter attendance percentage:");
+               do{
+               scanf("%d",&st[i].attendance);
+         }while(st[i].attendance<0||st[i].attendance>100);
+
+         printf("Enter feestatus(y/n):");
+         do{
+         scanf("%c",&st[i].feestat);
+         }while(st[i].feestat!='y'&& st[i].feestat!='n');
+
+         st[i].eligibility=0;
+             flag=0;
+             break;
+        }
+
+       }
+       if(flag==1){
+            *n=*n+1;
+
+            printf("\nEnter the details oF %d st student\n",x+1);
+         st[x].rollnum= x+1;
+
+         printf("Enter Name:");
+         scanf("%s",st[x].name);
+
+         printf("Enter attendance percentage:");
+               do{
+               scanf("%d",&st[x].attendance);
+         }while(st[x].attendance<0||st[x].attendance>100);
+
+         printf("Enter feestatus(y/n):");
+         do{
+         scanf("%c",&st[x].feestat);
+         }while(st[x].feestat!='y'&& st[x].feestat!='n');
+
+         st[x].eligibility=0;
+        }
 }
